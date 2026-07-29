@@ -1,0 +1,21 @@
+band_hotspot:
+  default: 2
+  type: int
+fpath_hcspots:
+  default: ./data/Sepolia_Thermopolis_LST-N_Clusters.tif
+  type: str
+fpath_mat:
+  default: ./data/Sepolia_material_label_dominant.tif
+  type: str
+fpath_ua:
+  default: ./data/UA2021_Sepolia.gpkg
+  type: str
+material_legend:
+  default: "asphalt,concrete,terracotta,vegetation,metal"
+  type: str
+material_ndv:
+  default: 0
+  type: int
+savename:
+  default: hw_combined_sepolia.gpkg
+  type: str

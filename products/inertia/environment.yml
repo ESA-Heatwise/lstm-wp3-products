@@ -1,0 +1,7 @@
+name: hw-inertia
+channels:
+- conda-forge
+- defaults
+dependencies:
+- rasterio
+- pvlib

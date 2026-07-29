@@ -1,0 +1,12 @@
+band:
+  default: 7
+  type: int
+fpath:
+  default: https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2025/03/08/athens-sepolia-lstm/Athens_Sepolia_LSTM_PRISMA_50m_v2.tif
+  type: str
+ndv:
+  default: -9999
+  type: int
+savename:
+  default: hw_lst_clusters_demo.tif
+  type: str

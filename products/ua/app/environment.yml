@@ -1,0 +1,10 @@
+channels:
+- conda-forge
+- defaults
+dependencies:
+- rasterio
+- rasterstats
+- geopandas
+- xcube
+- pystac
+name: hw-combined

@@ -1,0 +1,9 @@
+channels:
+- conda-forge
+- defaults
+dependencies:
+- rasterio
+- pvlib
+- xcube
+- pystac
+name: hw-inertia

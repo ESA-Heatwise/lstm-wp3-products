@@ -1,0 +1,12 @@
+channels:
+- conda-forge
+- defaults
+dependencies:
+- rasterio
+- scikit-learn
+- scipy
+- xgboost
+- xcube
+- pystac
+- scikit-image
+name: hw-hotspots

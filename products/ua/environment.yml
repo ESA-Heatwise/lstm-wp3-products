@@ -1,0 +1,10 @@
+name: hw-combined
+channels:
+- conda-forge
+- defaults
+dependencies:
+- rasterio
+- rasterstats
+- geopandas
+- scikit-image
+- scipy

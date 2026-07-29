@@ -1,0 +1,42 @@
+day:
+  default: 18
+  type: int
+latitude:
+  default: 37.98381
+  type: float
+longitude:
+  default: 23.727539
+  type: float
+lst_day_band:
+  default: 7
+  type: int
+lst_day_fpath:
+  default: https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2009/07/18/athens-center-lstm/Athens_Center_LSTM_Thermopolis_090718_day_50m.tif
+  type: str
+lst_day_ndv:
+  default: -9999
+  type: int
+lst_night_band:
+  default: 7
+  type: int
+lst_night_fpath:
+  default: https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2009/07/18/athens-center-lstm/Athens_Center_LSTM_Thermopolis_090718_night_50m.tif
+  type: str
+lst_night_ndv:
+  default: -9999
+  type: int
+month:
+  default: 7
+  type: int
+refl_fpath:
+  default: https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2009/07/18/athens-center-chime/Athens_Center_CHIME_Thermopolis_090718.tif
+  type: str
+refl_ndv:
+  default: -9999
+  type: int
+savename:
+  default: hw_ati_demo.tif
+  type: str
+year:
+  default: 2009
+  type: int
