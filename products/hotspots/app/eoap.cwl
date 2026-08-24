@@ -26,11 +26,16 @@ $graph:
         doc: ndv
         type: long
         default: -9999
+      output_format:
+        label: output_format
+        doc: output_format
+        type: string
+        default: zarr
       savename:
         label: savename
         doc: savename
         type: string
-        default: hw_lst_clusters_demo.tif
+        default: ''
     outputs:
       - id: stac_catalog
         type: Directory
@@ -43,6 +48,7 @@ $graph:
           band: band
           fpath: fpath
           ndv: ndv
+          output_format: output_format
           savename: savename
         out:
           - results
@@ -83,11 +89,18 @@ $graph:
         default: -9999
         inputBinding:
           prefix: --ndv
+      output_format:
+        label: output_format
+        doc: output_format
+        type: string
+        default: zarr
+        inputBinding:
+          prefix: --output-format
       savename:
         label: savename
         doc: savename
         type: string
-        default: hw_lst_clusters_demo.tif
+        default: ''
         inputBinding:
           prefix: --savename
     outputs:

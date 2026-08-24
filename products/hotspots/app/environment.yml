@@ -6,7 +6,7 @@ dependencies:
 - scikit-learn
 - scipy
 - xgboost
+- scikit-image
 - xcube
 - pystac
-- scikit-image
 name: hw-hotspots
