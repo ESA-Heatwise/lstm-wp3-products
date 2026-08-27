@@ -17,7 +17,8 @@ xcengine_config = {
 fpath = "https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2025/03/08/athens-sepolia-lstm/Athens_Sepolia_LSTM_PRISMA_50m_v2.tif"
 band = 7
 ndv = -9999
-savename = "hw_lst_clusters_demo.tif"
+output_format = "zarr"
+savename = "" # "hw_lst_clusters_demo.tif"
 
 
 # In[ ]:
@@ -32,7 +33,6 @@ __xce_set_params()
 
 
 """Hot- and cold-spot detection using majority voting."""
-
 
 from pathlib import Path
 
@@ -52,7 +52,8 @@ from sklearn.svm import SVR, LinearSVR
 from sklearn.tree import DecisionTreeRegressor
 from xgboost import XGBRegressor
 from skimage import morphology
-
+import xarray as xr
+import rioxarray
 
 
 WINDOW_SIZES = [15, 51]
@@ -101,7 +102,6 @@ def compute_window_features(temp, x, y, window_size=3):
         count_non_nan,
     ]
     return features
-
 
 with rio.open(fpath) as ds:
     temp = ds.read(band)
@@ -223,8 +223,40 @@ hot_spots_combined = np.logical_or(*hot_spots)
 cold_spots_combined = np.logical_or(*cold_spots)
 
 profile.update(dtype=rio.uint8, nodata=0, count=2)
-with rio.open(Path("./output") / savename, "w", **profile) as dst:
-    dst.write(cold_spots_combined.astype(rio.uint8), 1)
-    dst.set_band_description(1, "lst_coldspots")
-    dst.write(hot_spots_combined.astype(rio.uint8), 2)
-    dst.set_band_description(2, "lst_hotspots")
+
+
+# In[ ]:
+
+
+# define xarray dataset (output of the EOAP)
+dims = ("y", "x")
+hw_lst_clusters = xr.Dataset(
+    {
+        "lst_coldspots": (
+            dims, cold_spots_combined.astype(profile["dtype"]),
+        ),
+        "lst_hotspots": (
+            dims, hot_spots_combined.astype(profile["dtype"]),
+        ),
+    }
+)
+
+hw_lst_clusters.rio.write_crs(profile["crs"], inplace=True)
+hw_lst_clusters.rio.write_transform(profile["transform"], inplace=True)
+hw_lst_clusters["lst_coldspots"].rio.write_nodata(profile.get("nodata"), inplace=True)
+hw_lst_clusters["lst_hotspots"].rio.write_nodata(profile.get("nodata"), inplace=True)
+hw_lst_clusters.attrs["xcengine_output_format"] = output_format
+hw_lst_clusters.rio.set_spatial_dims(x_dim="x", y_dim="y", inplace=True)
+
+
+# In[ ]:
+
+
+# Save as tiff (when running docker by hand)
+if savename:
+    with rio.open(Path("./output") / savename, "w", **profile) as dst:
+        dst.write(cold_spots_combined.astype(rio.uint8), 1)
+        dst.set_band_description(1, "lst_coldspots")
+        dst.write(hot_spots_combined.astype(rio.uint8), 2)
+        dst.set_band_description(2, "lst_hotspots")
+

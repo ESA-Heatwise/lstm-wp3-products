@@ -98,7 +98,7 @@ class NotebookParameters:
     def get_cwl_workflow_inputs(self) -> dict[str, dict[str, Any]]:
         return {
             var_name: self.get_cwl_workflow_input(var_name)
-            for var_name in self.params
+            for var_name in self.cwl_params
         }
 
     def get_cwl_step_inputs(self) -> dict[str, str]:
@@ -111,11 +111,11 @@ class NotebookParameters:
         }
 
     def get_cwl_workflow_input(self, var_name: str) -> dict[str, Any]:
-        type_, default_ = self.params[var_name]
+        type_, default_ = self.cwl_params[var_name]
         return {
             "label": var_name,
             "doc": var_name,
-            "type": self.cwl_type(type_),
+            "type": type_,
             "default": default_,
         }
 
@@ -232,3 +232,21 @@ class NotebookParameters:
             }[type_]
         except KeyError:
             raise ValueError(f"Unhandled type {type_}")
+
+    @staticmethod
+    def read_annotations(code: str) -> list[dict[str, Any]]:
+        import ast
+        tree = ast.parse(code)
+        annotations: list[dict[str, Any]] = []
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.AnnAssign):
+                continue
+
+            annotations.append({
+                "annotation": ast.unparse(node.annotation),
+                "value": ast.unparse(node.value) if node.value else None,
+                "target": ast.unparse(node.target),
+                "line": node.lineno,
+            })
+
+        return annotations
