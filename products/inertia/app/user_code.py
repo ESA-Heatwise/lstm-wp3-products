@@ -32,7 +32,8 @@ year = 2009
 month = 7
 day = 18
 
-savename = "hw_ati_demo.tif"
+output_format = "zarr"
+savename = ""
 
 
 # In[ ]:
@@ -55,6 +56,8 @@ import math
 from datetime import datetime
 from pvlib import solarposition
 from pathlib import Path
+import xarray as xr
+import rioxarray
 
 
 obs_date = datetime(year, month, day)
@@ -124,6 +127,28 @@ S = part1 * part2 + part3
 inertia = S * (1 - SR) / dtemp  # Eq.2 from Mandanici et al. (2024). Units: K^-1
 
 profile_lst_D.update(dtype=rio.float32, nodata=np.nan, count=1)
-with rio.open(Path("./output") / savename, "w", **profile_lst_D) as dst:
-  dst.write(inertia.astype(rio.float32), 1)
+
+# In[ ]:
+
+
+# define xarray dataset (output of the EOAP)
+dims = ("y", "x")
+hw_ati = xr.Dataset(
+    {
+        "ati": (
+            dims, inertia.astype(profile_lst_D["dtype"]),
+        ),
+    }
+)
+
+hw_ati.rio.write_crs(profile_lst_D["crs"], inplace=True)
+hw_ati.rio.write_transform(profile_lst_D["transform"], inplace=True)
+hw_ati["ati"].rio.write_nodata(profile_lst_D.get("nodata"), inplace=True)
+hw_ati.attrs["xcengine_output_format"] = output_format
+hw_ati.rio.set_spatial_dims(x_dim="x", y_dim="y", inplace=True)
+
+# Save as tiff (when running docker by hand)
+if savename:
+    with rio.open(Path("./output") / savename, "w", **profile_lst_D) as dst:
+        dst.write(inertia.astype(rio.float32), 1)
 

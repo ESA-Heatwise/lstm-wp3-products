@@ -75,7 +75,12 @@ $graph:
         label: savename
         doc: savename
         type: string
-        default: hw_ati_demo.tif
+        default: ''
+      output_format:
+        label: output_format
+        doc: output_format
+        type: string
+        default: zarr
       year:
         label: year
         doc: year
@@ -102,6 +107,7 @@ $graph:
           month: month
           refl_fpath: refl_fpath
           refl_ndv: refl_ndv
+          output_format: output_format
           savename: savename
           year: year
         out:
@@ -206,11 +212,18 @@ $graph:
         default: -9999
         inputBinding:
           prefix: --refl-ndv
+      output_format:
+        label: output_format
+        doc: output_format
+        type: string
+        default: zarr
+        inputBinding:
+          prefix: --output-format
       savename:
         label: savename
         doc: savename
         type: string
-        default: hw_ati_demo.tif
+        default: ''
         inputBinding:
           prefix: --savename
       year:

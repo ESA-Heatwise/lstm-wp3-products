@@ -34,8 +34,11 @@ refl_fpath:
 refl_ndv:
   default: -9999
   type: int
+output_format:
+  default: zarr
+  type: str
 savename:
-  default: hw_ati_demo.tif
+  default: ''
   type: str
 year:
   default: 2009
