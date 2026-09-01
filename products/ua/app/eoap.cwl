@@ -1,6 +1,7 @@
 cwlVersion: v1.0
 $namespaces:
   s: https://schema.org/
+s:version: 1.0.0
 s:softwareVersion: 1.0.0
 schemas:
   - http://schema.org/version/9.0/schemaorg-current-http.rdf
@@ -11,46 +12,42 @@ $graph:
     doc: xcengine notebook
     requirements: []
     inputs:
-      MIN_CLUSTER_SIZE:
-        label: MIN_CLUSTER_SIZE
-        doc: MIN_CLUSTER_SIZE
+      band_hotspot:
+        label: band_hotspot
+        doc: band_hotspot
         type: long
-        default: 3
-      PERCENTILE:
-        label: PERCENTILE
-        doc: PERCENTILE
-        type: long
-        default: 90
-      RADIUS:
-        label: RADIUS
-        doc: RADIUS
-        type: long
-        default: 150
-      abund_ndv:
-        label: abund_ndv
-        doc: abund_ndv
-        type: long
-        default: -9999
-      fpath_abund:
-        label: fpath_abund
-        doc: fpath_abund
-        type: string
-        default: ./data/Athens_Sepolia_abundances.tif
+        default: 2
       fpath_hcspots:
         label: fpath_hcspots
         doc: fpath_hcspots
-        type: string
-        default: ./data/hot_cold_spots_Sepolia_night_15x15.tif
+        type: File
+        default: 
+            class: File
+            path: ../data/Sepolia_Thermopolis_LST-N_Clusters.tif
+      fpath_mat:
+        label: fpath_mat
+        doc: fpath_mat
+        type: File
+        default: 
+            class: File
+            path: ../data/Sepolia_material_label_dominant.tif
       fpath_ua:
         label: fpath_ua
         doc: fpath_ua
+        type: File
+        default:
+            class: File
+            path: ../data/UA2021_Sepolia.gpkg
+      material_legend:
+        label: material_legend
+        doc: material_legend
         type: string
-        default: ./data/Sepolia_UA2012.gpkg
-      materials:
-        label: materials
-        doc: materials
-        type: string
-        default: ''
+        default: asphalt,concrete,terracotta,vegetation,metal
+      material_ndv:
+        label: material_ndv
+        doc: material_ndv
+        type: long
+        default: 0
       savename:
         label: savename
         doc: savename
@@ -65,14 +62,12 @@ $graph:
       run_script:
         run: '#xce_script'
         in:
-          MIN_CLUSTER_SIZE: MIN_CLUSTER_SIZE
-          PERCENTILE: PERCENTILE
-          RADIUS: RADIUS
-          abund_ndv: abund_ndv
-          fpath_abund: fpath_abund
+          band_hotspot: band_hotspot
           fpath_hcspots: fpath_hcspots
+          fpath_mat: fpath_mat
           fpath_ua: fpath_ua
-          materials: materials
+          material_legend: material_legend
+          material_ndv: material_ndv
           savename: savename
         out:
           - results
@@ -92,62 +87,48 @@ $graph:
       - --batch
       - --eoap
     inputs:
-      MIN_CLUSTER_SIZE:
-        label: MIN_CLUSTER_SIZE
-        doc: MIN_CLUSTER_SIZE
+      band_hotspot:
+        label: band_hotspot
+        doc: band_hotspot
         type: long
-        default: 3
+        default: 2
         inputBinding:
-          prefix: --MIN-CLUSTER-SIZE
-      PERCENTILE:
-        label: PERCENTILE
-        doc: PERCENTILE
-        type: long
-        default: 90
-        inputBinding:
-          prefix: --PERCENTILE
-      RADIUS:
-        label: RADIUS
-        doc: RADIUS
-        type: long
-        default: 150
-        inputBinding:
-          prefix: --RADIUS
-      abund_ndv:
-        label: abund_ndv
-        doc: abund_ndv
-        type: long
-        default: -9999
-        inputBinding:
-          prefix: --abund-ndv
-      fpath_abund:
-        label: fpath_abund
-        doc: fpath_abund
-        type: string
-        default: ./data/Athens_Sepolia_abundances.tif
-        inputBinding:
-          prefix: --fpath-abund
+          prefix: --band-hotspot
       fpath_hcspots:
         label: fpath_hcspots
         doc: fpath_hcspots
-        type: string
-        default: ./data/hot_cold_spots_Sepolia_night_15x15.tif
+        type: File
+        default: ./data/Sepolia_Thermopolis_LST-N_Clusters.tif
         inputBinding:
           prefix: --fpath-hcspots
+      fpath_mat:
+        label: fpath_mat
+        doc: fpath_mat
+        type: File
+        default: ./data/Sepolia_material_label_dominant.tif
+        inputBinding:
+          prefix: --fpath-mat
       fpath_ua:
         label: fpath_ua
         doc: fpath_ua
-        type: string
-        default: ./data/Sepolia_UA2012.gpkg
+        type: File
+        default: ./data/UA2021_Sepolia.gpkg
         inputBinding:
           prefix: --fpath-ua
-      materials:
-        label: materials
-        doc: materials
+      material_legend:
+        label: material_legend
+        doc: material_legend
         type: string
-        default: ''
+        default: asphalt,concrete,terracotta,vegetation,metal
         inputBinding:
-          prefix: --materials
+          prefix: --material-legend
+      material_ndv:
+        label: material_ndv
+        doc: material_ndv
+        type: long
+        default: 0
+        inputBinding:
+          prefix: --material-ndv
       savename:
         label: savename
         doc: savename

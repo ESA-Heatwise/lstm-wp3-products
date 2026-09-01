@@ -5,6 +5,8 @@ dependencies:
 - rasterio
 - rasterstats
 - geopandas
+- scikit-image
+- scipy
 - xcube
 - pystac
 name: hw-combined

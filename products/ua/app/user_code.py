@@ -9,7 +9,7 @@ get_ipython = unittest.mock.MagicMock
 
 
 xcengine_config = {
-    "workflow_id": "heatwise_inertia",
+    "workflow_id": "heatwise_combined",
     "environment_file": "environment.yml",
     "container_image_tag": "hw-uacomb:1",
 }
@@ -40,6 +40,8 @@ import pandas as pd
 import rasterio as rio
 from rasterstats import zonal_stats
 from pathlib import Path
+import pystac
+from datetime import datetime, timezone
 
 # Step 1: Load the UA as a GeoDataFrame and get its CRS.
 # It is assumed that the UA already and the raster data overlap.
@@ -86,5 +88,35 @@ ua = ua.merge(df, left_index=True, right_index=True)
 
 # Step 4: Save updated UA dataset
 ua = ua.to_crs(crs_ua)
-ua.to_file(Path("./data") / savename)
+base_path = Path("./datasets_saved")
+base_path.mkdir(exist_ok=True, parents=True)
+ua.to_file( base_path / savename)
+
+
+# In[4]:
+
+
+def generate_stac(gdf: gpd.GeoDataFrame):
+    geometry = gdf.to_crs("EPSG:4327").geometry.dropna()
+    layout_strategy = pystac.layout.CustomLayoutStrategy(
+            item_func=lambda item, parent: Path(parent) / base_path.name / f"{item.id}.json"
+        )
+    item = pystac.Item(
+        "urban_atlas_with_hotspots",
+        geometry=geometry.__geo_interface__,
+        bbox=geometry.union_all().bounds,
+        datetime=datetime.now(tz=timezone.utc),
+        properties={},
+    )
+    catalog = pystac.Catalog("catalog", "Urban Atlas with Hotspots", strategy=layout_strategy, catalog_type = pystac.CatalogType.SELF_CONTAINED)
+    catalog.add_item(item)
+    catalog.normalize_and_save("catalog.json")
+
+
+
+# In[3]:
+
+
+# Step 5: Generate output STAC documents (done by hand, because xcengine does not support vector output)
+generate_stac(ua)
 

@@ -11,7 +11,7 @@ fpath_ua:
   default: ./data/UA2021_Sepolia.gpkg
   type: str
 material_legend:
-  default: "asphalt,concrete,terracotta,vegetation,metal"
+  default: asphalt,concrete,terracotta,vegetation,metal
   type: str
 material_ndv:
   default: 0
