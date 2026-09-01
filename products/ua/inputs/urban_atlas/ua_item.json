@@ -1,0 +1,32 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [],
+  "id": "ua_item",
+  "geometry": null,
+  "properties": {
+    "datetime": "2026-09-01T15:04:56.775691Z"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "./catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "./catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "self",
+      "href": "./ua_item.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "ua": {
+      "href": "./UA2021_Sepolia.gpkg"
+    }
+  }
+}

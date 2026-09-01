@@ -7,37 +7,41 @@ schemas:
   - http://schema.org/version/9.0/schemaorg-current-http.rdf
 $graph:
   - class: Workflow
-    id: heatwise_inertia
+    id: heatwise_combined
     label: xcengine notebook
     doc: xcengine notebook
     requirements: []
     inputs:
+      asset_id_hcspots:
+        label: asset_id_hcspots
+        doc: asset_id_hcspots
+        type: string
+        default: hcspots
+      asset_id_mat:
+        label: asset_id_mat
+        doc: asset_id_mat
+        type: string
+        default: mat
+      asset_id_ua:
+        label: asset_id_ua
+        doc: asset_id_ua
+        type: string
+        default: ua
       band_hotspot:
         label: band_hotspot
         doc: band_hotspot
         type: long
         default: 2
-      fpath_hcspots:
-        label: fpath_hcspots
-        doc: fpath_hcspots
-        type: File
-        default: 
-            class: File
-            path: ../data/Sepolia_Thermopolis_LST-N_Clusters.tif
-      fpath_mat:
-        label: fpath_mat
-        doc: fpath_mat
-        type: File
-        default: 
-            class: File
-            path: ../data/Sepolia_material_label_dominant.tif
-      fpath_ua:
-        label: fpath_ua
-        doc: fpath_ua
-        type: File
-        default:
-            class: File
-            path: ../data/UA2021_Sepolia.gpkg
+      hcspots:
+        label: hcspots
+        doc: hcspots
+        type: Directory
+        default: null
+      material_labels:
+        label: material_labels
+        doc: material_labels
+        type: Directory
+        default: null
       material_legend:
         label: material_legend
         doc: material_legend
@@ -53,6 +57,11 @@ $graph:
         doc: savename
         type: string
         default: hw_combined_sepolia.gpkg
+      urban_atlas:
+        label: urban_atlas
+        doc: urban_atlas
+        type: Directory
+        default: null
     outputs:
       - id: stac_catalog
         type: Directory
@@ -62,13 +71,16 @@ $graph:
       run_script:
         run: '#xce_script'
         in:
+          asset_id_hcspots: asset_id_hcspots
+          asset_id_mat: asset_id_mat
+          asset_id_ua: asset_id_ua
           band_hotspot: band_hotspot
-          fpath_hcspots: fpath_hcspots
-          fpath_mat: fpath_mat
-          fpath_ua: fpath_ua
+          hcspots: hcspots
+          material_labels: material_labels
           material_legend: material_legend
           material_ndv: material_ndv
           savename: savename
+          urban_atlas: urban_atlas
         out:
           - results
   - class: CommandLineTool
@@ -87,6 +99,27 @@ $graph:
       - --batch
       - --eoap
     inputs:
+      asset_id_hcspots:
+        label: asset_id_hcspots
+        doc: asset_id_hcspots
+        type: string
+        default: hcspots
+        inputBinding:
+          prefix: --asset-id-hcspots
+      asset_id_mat:
+        label: asset_id_mat
+        doc: asset_id_mat
+        type: string
+        default: mat
+        inputBinding:
+          prefix: --asset-id-mat
+      asset_id_ua:
+        label: asset_id_ua
+        doc: asset_id_ua
+        type: string
+        default: ua
+        inputBinding:
+          prefix: --asset-id-ua
       band_hotspot:
         label: band_hotspot
         doc: band_hotspot
@@ -94,27 +127,20 @@ $graph:
         default: 2
         inputBinding:
           prefix: --band-hotspot
-      fpath_hcspots:
-        label: fpath_hcspots
-        doc: fpath_hcspots
-        type: File
-        default: ./data/Sepolia_Thermopolis_LST-N_Clusters.tif
+      hcspots:
+        label: hcspots
+        doc: hcspots
+        type: Directory
+        default: null
         inputBinding:
-          prefix: --fpath-hcspots
-      fpath_mat:
-        label: fpath_mat
-        doc: fpath_mat
-        type: File
-        default: ./data/Sepolia_material_label_dominant.tif
+          prefix: --hcspots
+      material_labels:
+        label: material_labels
+        doc: material_labels
+        type: Directory
+        default: null
         inputBinding:
-          prefix: --fpath-mat
-      fpath_ua:
-        label: fpath_ua
-        doc: fpath_ua
-        type: File
-        default: ./data/UA2021_Sepolia.gpkg
-        inputBinding:
-          prefix: --fpath-ua
+          prefix: --material-labels
       material_legend:
         label: material_legend
         doc: material_legend
@@ -136,6 +162,13 @@ $graph:
         default: hw_combined_sepolia.gpkg
         inputBinding:
           prefix: --savename
+      urban_atlas:
+        label: urban_atlas
+        doc: urban_atlas
+        type: Directory
+        default: null
+        inputBinding:
+          prefix: --urban-atlas
     outputs:
       results:
         type: Directory

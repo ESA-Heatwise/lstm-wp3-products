@@ -1,0 +1,27 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [],
+  "id": "hcspots_item",
+  "geometry": null,
+  "properties": {
+    "datetime": "2026-09-01T14:59:13.267929Z"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "./catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "./catalog.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "hcspots": {
+      "href": "./Sepolia_Thermopolis_LST-N_Clusters.tif"
+    }
+  }
+}

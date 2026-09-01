@@ -5,7 +5,13 @@ get_ipython = unittest.mock.MagicMock
 
 # # Combined WP3 product
 
-# In[ ]:
+# In[1]:
+
+
+from pathlib import Path
+
+
+# In[2]:
 
 
 xcengine_config = {
@@ -14,9 +20,12 @@ xcengine_config = {
     "container_image_tag": "hw-uacomb:1",
 }
 
-fpath_ua = "./data/UA2021_Sepolia.gpkg"
-fpath_mat = "./data/Sepolia_material_label_dominant.tif"
-fpath_hcspots = "./data/Sepolia_Thermopolis_LST-N_Clusters.tif"
+urban_atlas: "EOInput" = Path("./inputs/urban_atlas")
+asset_id_ua = "ua"
+material_labels: "EOInput" = Path("./inputs/material_labels")
+asset_id_mat = "mat"
+hcspots: "EOInput" = Path("./inputs/hcspots")
+asset_id_hcspots = "hcspots"
 
 band_hotspot = 2
 material_ndv = 0
@@ -31,7 +40,47 @@ savename = "hw_combined_sepolia.gpkg"
 __xce_set_params()
 
 
-# In[ ]:
+# In[3]:
+
+
+from pathlib import Path
+import pystac
+
+
+# In[4]:
+
+
+def extract_assets_from_catalog(catalog: pystac.Catalog, asset_key: str) -> list[pystac.Asset]:
+    """
+    Returns all assets with a given key from the items of a catalog.
+    """
+    assets = []
+    for item in catalog.get_all_items():
+        if (asset := item.assets.get(asset_key)) is not None:
+            assets.append(asset)
+
+    return assets
+
+def get_catalog(inp: Path | str) -> pystac.Catalog:
+    p = Path(inp) / "catalog.json"
+    catalog = pystac.Catalog.from_file(p)
+    catalog.make_all_asset_hrefs_absolute()
+    return catalog
+
+
+# In[5]:
+
+
+catalog_ua = get_catalog(urban_atlas)
+catalog_mat = get_catalog(material_labels)
+catalog_hcspots = get_catalog(hcspots)
+
+fpath_ua = next(iter(extract_assets_from_catalog(catalog_ua, asset_id_ua))).href
+fpath_mat = next(iter(extract_assets_from_catalog(catalog_mat, asset_id_mat))).href
+fpath_hcspots = next(iter(extract_assets_from_catalog(catalog_hcspots, asset_id_hcspots))).href
+
+
+# In[6]:
 
 
 import geopandas as gpd
@@ -93,7 +142,7 @@ base_path.mkdir(exist_ok=True, parents=True)
 ua.to_file( base_path / savename)
 
 
-# In[4]:
+# In[7]:
 
 
 def generate_stac(gdf: gpd.GeoDataFrame):
@@ -114,7 +163,7 @@ def generate_stac(gdf: gpd.GeoDataFrame):
 
 
 
-# In[3]:
+# In[8]:
 
 
 # Step 5: Generate output STAC documents (done by hand, because xcengine does not support vector output)
