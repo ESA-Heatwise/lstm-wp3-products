@@ -18,7 +18,7 @@ fpath = "https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_l
 band = 7
 ndv = -9999
 output_format = "zarr"
-savename = "" # "hw_lst_clusters_demo.tif"
+savename = ""
 
 
 # In[ ]:
