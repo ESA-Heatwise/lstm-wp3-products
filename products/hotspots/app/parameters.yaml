@@ -1,11 +1,11 @@
-band:
-  default: 7
-  type: int
-fpath:
-  default: https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2025/03/08/athens-sepolia-lstm/Athens_Sepolia_LSTM_PRISMA_50m_v2.tif
+asset_id_lst:
+  default: lst
   type: str
+band:
+  default: 1
+  type: int
 ndv:
-  default: -9999
+  default: 0
   type: int
 output_format:
   default: zarr

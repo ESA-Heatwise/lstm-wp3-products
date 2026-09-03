@@ -11,21 +11,21 @@ $graph:
     doc: xcengine notebook
     requirements: []
     inputs:
+      asset_id_lst:
+        label: asset_id_lst
+        doc: asset_id_lst
+        type: string
+        default: lst
       band:
         label: band
         doc: band
         type: long
-        default: 7
-      fpath:
-        label: fpath
-        doc: fpath
-        type: string
-        default: https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2025/03/08/athens-sepolia-lstm/Athens_Sepolia_LSTM_PRISMA_50m_v2.tif
+        default: 1
       ndv:
         label: ndv
         doc: ndv
         type: long
-        default: -9999
+        default: 0
       output_format:
         label: output_format
         doc: output_format
@@ -45,8 +45,8 @@ $graph:
       run_script:
         run: '#xce_script'
         in:
+          asset_id_lst: asset_id_lst
           band: band
-          fpath: fpath
           ndv: ndv
           output_format: output_format
           savename: savename
@@ -68,25 +68,32 @@ $graph:
       - --batch
       - --eoap
     inputs:
+      asset_id_lst:
+        label: asset_id_lst
+        doc: asset_id_lst
+        type: string
+        default: lst
+        inputBinding:
+          prefix: --asset-id-lst
       band:
         label: band
         doc: band
         type: long
-        default: 7
+        default: 1
         inputBinding:
           prefix: --band
-      fpath:
-        label: fpath
-        doc: fpath
-        type: string
-        default: https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2025/03/08/athens-sepolia-lstm/Athens_Sepolia_LSTM_PRISMA_50m_v2.tif
+      lst:
+        label: lst
+        doc: lst
+        type: Directory
+        default: null
         inputBinding:
-          prefix: --fpath
+          prefix: --lst
       ndv:
         label: ndv
         doc: ndv
         type: long
-        default: -9999
+        default: 0
         inputBinding:
           prefix: --ndv
       output_format:

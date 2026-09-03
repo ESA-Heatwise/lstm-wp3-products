@@ -1,0 +1,27 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [],
+  "id": "lst_item",
+  "geometry": null,
+  "properties": {
+    "datetime": "2026-09-03T11:40:23.131922Z"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "./catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "./catalog.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "lst": {
+      "href": "./Sepolia_Thermopolis_LST-N_smoothed.tiff"
+    }
+  }
+}
