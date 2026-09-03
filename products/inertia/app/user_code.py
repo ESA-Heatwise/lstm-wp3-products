@@ -14,15 +14,12 @@ xcengine_config = {
     "container_image_tag": "hw-inertia:1",
 }
 
-lst_day_fpath = "https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2009/07/18/athens-center-lstm/Athens_Center_LSTM_Thermopolis_090718_day_50m.tif"
 lst_day_band = 7
 lst_day_ndv = -9999
 
-lst_night_fpath = "https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2009/07/18/athens-center-lstm/Athens_Center_LSTM_Thermopolis_090718_night_50m.tif"
 lst_night_band = 7
 lst_night_ndv = -9999
 
-refl_fpath = "https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2009/07/18/athens-center-chime/Athens_Center_CHIME_Thermopolis_090718.tif"
 refl_ndv = -9999
 
 longitude = 23.727539
@@ -49,6 +46,7 @@ __xce_set_params()
 # method, as described in the paper: https://doi.org/10.1038/s41598-024-64371-3
 
 import numpy as np
+import pystac
 import rasterio as rio
 from rasterio import warp
 from rasterio.enums import Resampling
@@ -60,7 +58,44 @@ import xarray as xr
 import rioxarray
 
 
+def extract_assets_from_catalog(catalog: pystac.Catalog, asset_key: str) -> list[pystac.Asset]:
+    """
+    Returns all assets with a given key from the items of a catalog.
+    """
+    assets = []
+    for item in catalog.get_all_items():
+        if (asset := item.assets.get(asset_key)) is not None:
+            assets.append(asset)
+
+    return assets
+
+def get_catalog(inp: Path | str) -> pystac.Catalog:
+    p = Path(inp) / "catalog.json"
+    catalog = pystac.Catalog.from_file(p)
+    catalog.make_all_asset_hrefs_absolute()
+    return catalog
+
+
 obs_date = datetime(year, month, day)
+
+lst_day: "EOInput" = Path("./inputs/lst_day")
+asset_id_lst_day = "lst_day"
+
+lst_night: "EOInput" = Path("./inputs/lst_night")
+asset_id_lst_night = "lst_night"
+
+refl: "EOInput" = Path("./inputs/refl")
+asset_id_refl = "refl"
+
+catalog_lst_day = get_catalog(lst_day)
+lst_day_fpath = next(iter(extract_assets_from_catalog(catalog_lst_day, asset_id_lst_day))).href
+
+catalog_lst_night = get_catalog(lst_night)
+lst_night_fpath = next(iter(extract_assets_from_catalog(catalog_lst_night, asset_id_lst_night))).href
+
+catalog_refl = get_catalog(refl)
+refl_fpath = next(iter(extract_assets_from_catalog(catalog_refl, asset_id_refl))).href
+
 
 with rio.open(lst_day_fpath) as ds:  # Daytime LST
     LST_D = ds.read(lst_day_band)
