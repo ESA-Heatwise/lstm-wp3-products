@@ -68,7 +68,6 @@ def get_catalog(inp: Path | str) -> pystac.Catalog:
 # In[5]:
 
 catalog_lst = get_catalog(lst)
-print(catalog_lst)
 fpath = next(iter(extract_assets_from_catalog(catalog_lst, asset_id_lst))).href
 
 # Main Code:
