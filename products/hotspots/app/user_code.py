@@ -1,43 +1,14 @@
-import unittest.mock
-get_ipython = unittest.mock.MagicMock
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Hot- and cold-spot detection using majority voting
-
-# In[ ]:
-
-
-xcengine_config = {
-    "workflow_id": "hotspot_detection",
-    "environment_file": "environment.yml",
-    "container_image_tag": "hw-lst-clusters:1",
-}
-
-fpath = "https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2025/03/08/athens-sepolia-lstm/Athens_Sepolia_LSTM_PRISMA_50m_v2.tif"
-band = 7
-ndv = -9999
-output_format = "zarr"
-savename = ""
-
-
-# In[ ]:
-
-
-__xce_set_params()
-
-
-# Main Code:
-
-# In[ ]:
-
-
 """Hot- and cold-spot detection using majority voting."""
 
-from pathlib import Path
+
 
 import numpy as np
 import rasterio as rio
+import pystac
+import xarray as xr
+import rioxarray
+
+from pathlib import Path
 from scipy.stats import kurtosis, skew
 from sklearn.ensemble import (
     AdaBoostRegressor,
@@ -52,8 +23,59 @@ from sklearn.svm import SVR, LinearSVR
 from sklearn.tree import DecisionTreeRegressor
 from xgboost import XGBRegressor
 from skimage import morphology
-import xarray as xr
-import rioxarray
+
+import unittest.mock
+get_ipython = unittest.mock.MagicMock
+
+
+xcengine_config = {
+    "workflow_id": "hotspot_detection",
+    "environment_file": "environment.yml",
+    "container_image_tag": "hw-lst-clusters:1",
+}
+
+lst: "EOInput" = Path("./inputs/lst")
+asset_id_lst = "lst"
+
+band = 1
+ndv = 0
+output_format = "zarr"
+savename = ""
+
+
+
+__xce_set_params()
+
+
+
+def extract_assets_from_catalog(catalog: pystac.Catalog, asset_key: str) -> list[pystac.Asset]:
+    """
+    Returns all assets with a given key from the items of a catalog.
+    """
+    assets = []
+    for item in catalog.get_all_items():
+        if (asset := item.assets.get(asset_key)) is not None:
+            assets.append(asset)
+
+    return assets
+
+def get_catalog(inp: Path | str) -> pystac.Catalog:
+    p = Path(inp) / "catalog.json"
+    catalog = pystac.Catalog.from_file(p)
+    catalog.make_all_asset_hrefs_absolute()
+    return catalog
+
+# In[5]:
+
+catalog_lst = get_catalog(lst)
+fpath = next(iter(extract_assets_from_catalog(catalog_lst, asset_id_lst))).href
+
+# Main Code:
+
+# In[ ]:
+
+
+
 
 
 WINDOW_SIZES = [15, 51]

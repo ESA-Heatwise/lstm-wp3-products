@@ -11,6 +11,21 @@ $graph:
     doc: xcengine notebook
     requirements: []
     inputs:
+      asset_id_lst_day:
+        label: asset_id_lst_day
+        doc: asset_id_lst_day
+        type: string
+        default: lst_day
+      asset_id_lst_night:
+        label: asset_id_lst_night
+        doc: asset_id_lst_night
+        type: string
+        default: lst_night
+      asset_id_refl:
+        label: asset_id_refl
+        doc: asset_id_refl
+        type: string
+        default: refl     
       day:
         label: day
         doc: day
@@ -31,11 +46,6 @@ $graph:
         doc: lst_day_band
         type: long
         default: 7
-      lst_day_fpath:
-        label: lst_day_fpath
-        doc: lst_day_fpath
-        type: string
-        default: https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2009/07/18/athens-center-lstm/Athens_Center_LSTM_Thermopolis_090718_day_50m.tif
       lst_day_ndv:
         label: lst_day_ndv
         doc: lst_day_ndv
@@ -46,11 +56,6 @@ $graph:
         doc: lst_night_band
         type: long
         default: 7
-      lst_night_fpath:
-        label: lst_night_fpath
-        doc: lst_night_fpath
-        type: string
-        default: https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2009/07/18/athens-center-lstm/Athens_Center_LSTM_Thermopolis_090718_night_50m.tif
       lst_night_ndv:
         label: lst_night_ndv
         doc: lst_night_ndv
@@ -61,11 +66,6 @@ $graph:
         doc: month
         type: long
         default: 7
-      refl_fpath:
-        label: refl_fpath
-        doc: refl_fpath
-        type: string
-        default: https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2009/07/18/athens-center-chime/Athens_Center_CHIME_Thermopolis_090718.tif
       refl_ndv:
         label: refl_ndv
         doc: refl_ndv
@@ -95,17 +95,17 @@ $graph:
       run_script:
         run: '#xce_script'
         in:
+          asset_id_lst_day: asset_id_lst_day
+          asset_id_lst_night: asset_id_lst_night
+          asset_id_refl: asset_id_refl
           day: day
           latitude: latitude
           longitude: longitude
           lst_day_band: lst_day_band
-          lst_day_fpath: lst_day_fpath
           lst_day_ndv: lst_day_ndv
           lst_night_band: lst_night_band
-          lst_night_fpath: lst_night_fpath
           lst_night_ndv: lst_night_ndv
           month: month
-          refl_fpath: refl_fpath
           refl_ndv: refl_ndv
           output_format: output_format
           savename: savename
@@ -128,6 +128,27 @@ $graph:
       - --batch
       - --eoap
     inputs:
+      asset_id_lst_day:
+        label: asset_id_lst_day
+        doc: asset_id_lst_day
+        type: string
+        default: lst_day
+        inputBinding:
+          prefix: --asset-id-lst_day
+      asset_id_lst_night:
+        label: asset_id_lst_night
+        doc: asset_id_lst_night
+        type: string
+        default: lst_night
+        inputBinding:
+          prefix: --asset-id-lst_night
+      asset_id_refl:
+        label: asset_id_refl
+        doc: asset_id_refl
+        type: string
+        default: refl
+        inputBinding:
+          prefix: --asset-id-refl
       day:
         label: day
         doc: day
@@ -156,13 +177,6 @@ $graph:
         default: 7
         inputBinding:
           prefix: --lst-day-band
-      lst_day_fpath:
-        label: lst_day_fpath
-        doc: lst_day_fpath
-        type: string
-        default: https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2009/07/18/athens-center-lstm/Athens_Center_LSTM_Thermopolis_090718_day_50m.tif
-        inputBinding:
-          prefix: --lst-day-fpath
       lst_day_ndv:
         label: lst_day_ndv
         doc: lst_day_ndv
@@ -177,13 +191,6 @@ $graph:
         default: 7
         inputBinding:
           prefix: --lst-night-band
-      lst_night_fpath:
-        label: lst_night_fpath
-        doc: lst_night_fpath
-        type: string
-        default: https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2009/07/18/athens-center-lstm/Athens_Center_LSTM_Thermopolis_090718_night_50m.tif
-        inputBinding:
-          prefix: --lst-night-fpath
       lst_night_ndv:
         label: lst_night_ndv
         doc: lst_night_ndv
@@ -198,13 +205,6 @@ $graph:
         default: 7
         inputBinding:
           prefix: --month
-      refl_fpath:
-        label: refl_fpath
-        doc: refl_fpath
-        type: string
-        default: https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2009/07/18/athens-center-chime/Athens_Center_CHIME_Thermopolis_090718.tif
-        inputBinding:
-          prefix: --refl-fpath
       refl_ndv:
         label: refl_ndv
         doc: refl_ndv
