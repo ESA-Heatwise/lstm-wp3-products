@@ -4,6 +4,14 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Docker image tag (default: latest)"
+        required: false
+        default: "latest"
+        type: string
+
 
 permissions:
   contents: read
@@ -39,5 +47,5 @@ jobs:
           file: ./products/${{ matrix.app }}/app/Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.app }}:latest
+            ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.app }}:${{ inputs.tag || 'latest' }}
             ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.app }}:${{ github.sha }}
