@@ -31,7 +31,7 @@ get_ipython = unittest.mock.MagicMock
 xcengine_config = {
     "workflow_id": "hotspot_detection",
     "environment_file": "environment.yml",
-    "container_image_tag": "hw-lst-clusters:1",
+    "container_image_tag": "ghcr.io/ESA-Heatwise/lstm-wp3-products-hotspots:latest",
 }
 
 lst: "EOInput" = Path("./inputs/lst")

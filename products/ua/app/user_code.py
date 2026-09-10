@@ -17,7 +17,7 @@ from pathlib import Path
 xcengine_config = {
     "workflow_id": "heatwise_combined",
     "environment_file": "environment.yml",
-    "container_image_tag": "hw-uacomb:1",
+    "container_image_tag": "ghcr.io/ESA-Heatwise/lstm-wp3-products-ua:latest",
 }
 
 urban_atlas: "EOInput" = Path("./inputs/urban_atlas")

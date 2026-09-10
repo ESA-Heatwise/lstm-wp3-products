@@ -87,7 +87,7 @@ $graph:
     id: xce_script
     requirements:
       DockerRequirement:
-        dockerPull: hghcr.io/ESA-Heatwise/lstm-wp3-products-ua:latest
+        dockerPull: ghcr.io/ESA-Heatwise/lstm-wp3-products-ua:latest
     hints:
       DockerRequirement:
         dockerPull: ghcr.io/ESA-Heatwise/lstm-wp3-products-ua:latest
