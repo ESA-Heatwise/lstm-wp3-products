@@ -56,10 +56,10 @@ $graph:
     id: xce_script
     requirements:
       DockerRequirement:
-        dockerPull: hw-lst-clusters:1
+        dockerPull: ghcr.io/ESA-Heatwise/lstm-wp3-products-hotspots:latest
     hints:
       DockerRequirement:
-        dockerPull: hw-lst-clusters:1
+        dockerPull: ghcr.io/ESA-Heatwise/lstm-wp3-products-hotspots:latest
     baseCommand:
       - /usr/local/bin/_entrypoint.sh
       - python
