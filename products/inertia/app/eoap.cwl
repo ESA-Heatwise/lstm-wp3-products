@@ -116,10 +116,10 @@ $graph:
     id: xce_script
     requirements:
       DockerRequirement:
-        dockerPull: hw-inertia:1
+        dockerPull: ghcr.io/ESA-Heatwise/lstm-wp3-products-inertia:latest
     hints:
       DockerRequirement:
-        dockerPull: hw-inertia:1
+        dockerPull: ghcr.io/ESA-Heatwise/lstm-wp3-products-inertia:latest
     baseCommand:
       - /usr/local/bin/_entrypoint.sh
       - python

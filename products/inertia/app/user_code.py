@@ -11,7 +11,7 @@ get_ipython = unittest.mock.MagicMock
 xcengine_config = {
     "workflow_id": "heatwise_inertia",
     "environment_file": "environment.yml",
-    "container_image_tag": "hw-inertia:1",
+    "container_image_tag": "ghcr.io/ESA-Heatwise/lstm-wp3-products-inertia:latest",
 }
 
 lst_day_band = 7

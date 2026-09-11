@@ -87,10 +87,10 @@ $graph:
     id: xce_script
     requirements:
       DockerRequirement:
-        dockerPull: hw-uacomb:1
+        dockerPull: ghcr.io/ESA-Heatwise/lstm-wp3-products-ua:latest
     hints:
       DockerRequirement:
-        dockerPull: hw-uacomb:1
+        dockerPull: ghcr.io/ESA-Heatwise/lstm-wp3-products-ua:latest
     baseCommand:
       - /usr/local/bin/_entrypoint.sh
       - python
