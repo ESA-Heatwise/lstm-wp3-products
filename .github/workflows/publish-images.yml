@@ -51,5 +51,5 @@ jobs:
           file: ./products/${{ matrix.app }}/app/Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.app }}:${{ inputs.tag || 'latest' }}
-            ${{ env.REGISTRY }}/${{ github.repository }}-${{ matrix.app }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.app }}:${{ inputs.tag || 'latest' }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.app }}:${{ github.sha }}
