@@ -1,6 +1,7 @@
 cwlVersion: v1.0
 $namespaces:
   s: https://schema.org/
+s:version: 1.0.0
 s:softwareVersion: 1.0.0
 schemas:
   - http://schema.org/version/9.0/schemaorg-current-http.rdf
@@ -11,11 +12,6 @@ $graph:
     doc: xcengine notebook
     requirements: []
     inputs:
-      asset_id_lst:
-        label: asset_id_lst
-        doc: asset_id_lst
-        type: string
-        default: lst
       band:
         label: band
         doc: band
@@ -45,7 +41,6 @@ $graph:
       run_script:
         run: '#xce_script'
         in:
-          asset_id_lst: asset_id_lst
           band: band
           ndv: ndv
           output_format: output_format
@@ -56,10 +51,10 @@ $graph:
     id: xce_script
     requirements:
       DockerRequirement:
-        dockerPull: ghcr.io/ESA-Heatwise/lstm-wp3-products-hotspots:latest
+        dockerPull: ghcr.io/esa-heatwise/lstm-wp3-products-hotspots:latest
     hints:
       DockerRequirement:
-        dockerPull: ghcr.io/ESA-Heatwise/lstm-wp3-products-hotspots:latest
+        dockerPull: ghcr.io/esa-heatwise/lstm-wp3-products-hotspots:latest
     baseCommand:
       - /usr/local/bin/_entrypoint.sh
       - python
@@ -68,13 +63,6 @@ $graph:
       - --batch
       - --eoap
     inputs:
-      asset_id_lst:
-        label: asset_id_lst
-        doc: asset_id_lst
-        type: string
-        default: lst
-        inputBinding:
-          prefix: --asset-id-lst
       band:
         label: band
         doc: band
@@ -82,13 +70,6 @@ $graph:
         default: 1
         inputBinding:
           prefix: --band
-      lst:
-        label: lst
-        doc: lst
-        type: Directory
-        default: null
-        inputBinding:
-          prefix: --lst
       ndv:
         label: ndv
         doc: ndv

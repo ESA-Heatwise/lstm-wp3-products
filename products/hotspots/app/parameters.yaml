@@ -1,6 +1,3 @@
-asset_id_lst:
-  default: lst
-  type: str
 band:
   default: 1
   type: int

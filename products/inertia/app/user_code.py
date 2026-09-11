@@ -11,7 +11,7 @@ get_ipython = unittest.mock.MagicMock
 xcengine_config = {
     "workflow_id": "heatwise_inertia",
     "environment_file": "environment.yml",
-    "container_image_tag": "ghcr.io/ESA-Heatwise/lstm-wp3-products-inertia:latest",
+    "container_image_tag": "ghcr.io/esa-heatwise/lstm-wp3-products-inertia:latest",
 }
 
 lst_day_band = 7
@@ -163,6 +163,8 @@ inertia = S * (1 - SR) / dtemp  # Eq.2 from Mandanici et al. (2024). Units: K^-1
 
 profile_lst_D.update(dtype=rio.float32, nodata=np.nan, count=1)
 
+
+
 # In[ ]:
 
 
@@ -181,6 +183,10 @@ hw_ati.rio.write_transform(profile_lst_D["transform"], inplace=True)
 hw_ati["ati"].rio.write_nodata(profile_lst_D.get("nodata"), inplace=True)
 hw_ati.attrs["xcengine_output_format"] = output_format
 hw_ati.rio.set_spatial_dims(x_dim="x", y_dim="y", inplace=True)
+
+
+# In[ ]:
+
 
 # Save as tiff (when running docker by hand)
 if savename:

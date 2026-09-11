@@ -1,14 +1,43 @@
+import unittest.mock
+get_ipython = unittest.mock.MagicMock
+#!/usr/bin/env python
+# coding: utf-8
+
+# # Hot- and cold-spot detection using majority voting
+
+# In[ ]:
+
+
+xcengine_config = {
+    "workflow_id": "hotspot_detection",
+    "environment_file": "environment.yml",
+    "container_image_tag": "ghcr.io/esa-heatwise/lstm-wp3-products-hotspots:latest",
+}
+
+band = 1
+ndv = 0
+output_format = "zarr"
+savename = "" # "hw_lst_clusters_demo.tif"
+
+
+# In[ ]:
+
+
+__xce_set_params()
+
+
+# Main Code:
+
+# In[ ]:
+
+
 """Hot- and cold-spot detection using majority voting."""
 
+from pathlib import Path
 
-
+import pystac
 import numpy as np
 import rasterio as rio
-import pystac
-import xarray as xr
-import rioxarray
-
-from pathlib import Path
 from scipy.stats import kurtosis, skew
 from sklearn.ensemble import (
     AdaBoostRegressor,
@@ -23,29 +52,11 @@ from sklearn.svm import SVR, LinearSVR
 from sklearn.tree import DecisionTreeRegressor
 from xgboost import XGBRegressor
 from skimage import morphology
-
-import unittest.mock
-get_ipython = unittest.mock.MagicMock
-
-
-xcengine_config = {
-    "workflow_id": "hotspot_detection",
-    "environment_file": "environment.yml",
-    "container_image_tag": "ghcr.io/ESA-Heatwise/lstm-wp3-products-hotspots:latest",
-}
-
-lst: "EOInput" = Path("./inputs/lst")
-asset_id_lst = "lst"
-
-band = 1
-ndv = 0
-output_format = "zarr"
-savename = ""
+import xarray as xr
+import rioxarray
 
 
-
-__xce_set_params()
-
+WINDOW_SIZES = [15, 51]
 
 
 def extract_assets_from_catalog(catalog: pystac.Catalog, asset_key: str) -> list[pystac.Asset]:
@@ -59,26 +70,12 @@ def extract_assets_from_catalog(catalog: pystac.Catalog, asset_key: str) -> list
 
     return assets
 
+
 def get_catalog(inp: Path | str) -> pystac.Catalog:
     p = Path(inp) / "catalog.json"
     catalog = pystac.Catalog.from_file(p)
     catalog.make_all_asset_hrefs_absolute()
     return catalog
-
-# In[5]:
-
-catalog_lst = get_catalog(lst)
-fpath = next(iter(extract_assets_from_catalog(catalog_lst, asset_id_lst))).href
-
-# Main Code:
-
-# In[ ]:
-
-
-
-
-
-WINDOW_SIZES = [15, 51]
 
 
 def compute_window_features(temp, x, y, window_size=3):
@@ -124,6 +121,14 @@ def compute_window_features(temp, x, y, window_size=3):
         count_non_nan,
     ]
     return features
+
+
+lst: "EOInput" = Path("./inputs/lst")
+asset_id_lst = "lst"
+
+catalog_lst = get_catalog(lst)
+print(catalog_lst)
+fpath = next(iter(extract_assets_from_catalog(catalog_lst, asset_id_lst))).href
 
 with rio.open(fpath) as ds:
     temp = ds.read(band)

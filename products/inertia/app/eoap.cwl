@@ -1,6 +1,7 @@
 cwlVersion: v1.0
 $namespaces:
   s: https://schema.org/
+s:version: 1.0.0
 s:softwareVersion: 1.0.0
 schemas:
   - http://schema.org/version/9.0/schemaorg-current-http.rdf
@@ -11,21 +12,6 @@ $graph:
     doc: xcengine notebook
     requirements: []
     inputs:
-      asset_id_lst_day:
-        label: asset_id_lst_day
-        doc: asset_id_lst_day
-        type: string
-        default: lst_day
-      asset_id_lst_night:
-        label: asset_id_lst_night
-        doc: asset_id_lst_night
-        type: string
-        default: lst_night
-      asset_id_refl:
-        label: asset_id_refl
-        doc: asset_id_refl
-        type: string
-        default: refl     
       day:
         label: day
         doc: day
@@ -66,6 +52,11 @@ $graph:
         doc: month
         type: long
         default: 7
+      output_format:
+        label: output_format
+        doc: output_format
+        type: string
+        default: zarr
       refl_ndv:
         label: refl_ndv
         doc: refl_ndv
@@ -76,11 +67,6 @@ $graph:
         doc: savename
         type: string
         default: ''
-      output_format:
-        label: output_format
-        doc: output_format
-        type: string
-        default: zarr
       year:
         label: year
         doc: year
@@ -95,9 +81,6 @@ $graph:
       run_script:
         run: '#xce_script'
         in:
-          asset_id_lst_day: asset_id_lst_day
-          asset_id_lst_night: asset_id_lst_night
-          asset_id_refl: asset_id_refl
           day: day
           latitude: latitude
           longitude: longitude
@@ -106,8 +89,8 @@ $graph:
           lst_night_band: lst_night_band
           lst_night_ndv: lst_night_ndv
           month: month
-          refl_ndv: refl_ndv
           output_format: output_format
+          refl_ndv: refl_ndv
           savename: savename
           year: year
         out:
@@ -116,10 +99,10 @@ $graph:
     id: xce_script
     requirements:
       DockerRequirement:
-        dockerPull: ghcr.io/ESA-Heatwise/lstm-wp3-products-inertia:latest
+        dockerPull: ghcr.io/esa-heatwise/lstm-wp3-products-inertia:latest
     hints:
       DockerRequirement:
-        dockerPull: ghcr.io/ESA-Heatwise/lstm-wp3-products-inertia:latest
+        dockerPull: ghcr.io/esa-heatwise/lstm-wp3-products-inertia:latest
     baseCommand:
       - /usr/local/bin/_entrypoint.sh
       - python
@@ -128,27 +111,6 @@ $graph:
       - --batch
       - --eoap
     inputs:
-      asset_id_lst_day:
-        label: asset_id_lst_day
-        doc: asset_id_lst_day
-        type: string
-        default: lst_day
-        inputBinding:
-          prefix: --asset-id-lst_day
-      asset_id_lst_night:
-        label: asset_id_lst_night
-        doc: asset_id_lst_night
-        type: string
-        default: lst_night
-        inputBinding:
-          prefix: --asset-id-lst_night
-      asset_id_refl:
-        label: asset_id_refl
-        doc: asset_id_refl
-        type: string
-        default: refl
-        inputBinding:
-          prefix: --asset-id-refl
       day:
         label: day
         doc: day
@@ -205,13 +167,6 @@ $graph:
         default: 7
         inputBinding:
           prefix: --month
-      refl_ndv:
-        label: refl_ndv
-        doc: refl_ndv
-        type: long
-        default: -9999
-        inputBinding:
-          prefix: --refl-ndv
       output_format:
         label: output_format
         doc: output_format
@@ -219,6 +174,13 @@ $graph:
         default: zarr
         inputBinding:
           prefix: --output-format
+      refl_ndv:
+        label: refl_ndv
+        doc: refl_ndv
+        type: long
+        default: -9999
+        inputBinding:
+          prefix: --refl-ndv
       savename:
         label: savename
         doc: savename

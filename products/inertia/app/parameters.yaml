@@ -10,33 +10,24 @@ longitude:
 lst_day_band:
   default: 7
   type: int
-asset_id_lst_day:
-  default: lst_day
-  type: str
 lst_day_ndv:
   default: -9999
   type: int
 lst_night_band:
   default: 7
   type: int
-asset_id_lst_night:
-  default: lst_night
-  type: str
 lst_night_ndv:
   default: -9999
   type: int
 month:
   default: 7
   type: int
-asset_id_refl:
-  default: refl
+output_format:
+  default: zarr
   type: str
 refl_ndv:
   default: -9999
   type: int
-output_format:
-  default: zarr
-  type: str
 savename:
   default: ''
   type: str
