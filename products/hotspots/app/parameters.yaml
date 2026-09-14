@@ -1,6 +1,12 @@
+asset_id_lst:
+  default: lst
+  type: str
 band:
   default: 1
   type: int
+lst:
+  default: null
+  type: Directory
 ndv:
   default: 0
   type: int

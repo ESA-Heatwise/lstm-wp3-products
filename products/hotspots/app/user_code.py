@@ -8,6 +8,12 @@ get_ipython = unittest.mock.MagicMock
 # In[ ]:
 
 
+from pathlib import Path
+
+
+# In[ ]:
+
+
 xcengine_config = {
     "workflow_id": "hotspot_detection",
     "environment_file": "environment.yml",
@@ -18,6 +24,9 @@ band = 1
 ndv = 0
 output_format = "zarr"
 savename = "" # "hw_lst_clusters_demo.tif"
+
+lst: "EOInput" = Path("./inputs/lst")
+asset_id_lst = "lst"
 
 
 # In[ ]:
@@ -32,8 +41,6 @@ __xce_set_params()
 
 
 """Hot- and cold-spot detection using majority voting."""
-
-from pathlib import Path
 
 import pystac
 import numpy as np
@@ -121,10 +128,6 @@ def compute_window_features(temp, x, y, window_size=3):
         count_non_nan,
     ]
     return features
-
-
-lst: "EOInput" = Path("./inputs/lst")
-asset_id_lst = "lst"
 
 catalog_lst = get_catalog(lst)
 print(catalog_lst)

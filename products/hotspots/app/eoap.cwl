@@ -12,11 +12,23 @@ $graph:
     doc: xcengine notebook
     requirements: []
     inputs:
+      asset_id_lst:
+        label: asset_id_lst
+        doc: asset_id_lst
+        type: string
+        default: lst
       band:
         label: band
         doc: band
         type: long
         default: 1
+      lst:
+        label: lst
+        doc: lst
+        type: Directory
+        default:
+          class: Directory
+          location: null
       ndv:
         label: ndv
         doc: ndv
@@ -41,7 +53,9 @@ $graph:
       run_script:
         run: '#xce_script'
         in:
+          asset_id_lst: asset_id_lst
           band: band
+          lst: lst
           ndv: ndv
           output_format: output_format
           savename: savename
@@ -63,6 +77,13 @@ $graph:
       - --batch
       - --eoap
     inputs:
+      asset_id_lst:
+        label: asset_id_lst
+        doc: asset_id_lst
+        type: string
+        default: lst
+        inputBinding:
+          prefix: --asset-id-lst
       band:
         label: band
         doc: band
@@ -70,6 +91,15 @@ $graph:
         default: 1
         inputBinding:
           prefix: --band
+      lst:
+        label: lst
+        doc: lst
+        type: Directory
+        default:
+          class: Directory
+          location: null
+        inputBinding:
+          prefix: --lst
       ndv:
         label: ndv
         doc: ndv
