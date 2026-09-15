@@ -1,3 +1,12 @@
+asset_id_lst_day:
+  default: lst_day
+  type: str
+asset_id_lst_night:
+  default: lst_night
+  type: str
+asset_id_refl:
+  default: refl
+  type: str
 day:
   default: 18
   type: int
@@ -7,12 +16,18 @@ latitude:
 longitude:
   default: 23.727539
   type: float
+lst_day:
+  default: null
+  type: Directory
 lst_day_band:
   default: 7
   type: int
 lst_day_ndv:
   default: -9999
   type: int
+lst_night:
+  default: null
+  type: Directory
 lst_night_band:
   default: 7
   type: int
@@ -25,6 +40,9 @@ month:
 output_format:
   default: zarr
   type: str
+refl:
+  default: null
+  type: Directory
 refl_ndv:
   default: -9999
   type: int

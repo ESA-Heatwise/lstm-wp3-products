@@ -12,6 +12,21 @@ $graph:
     doc: xcengine notebook
     requirements: []
     inputs:
+      asset_id_lst_day:
+        label: asset_id_lst_day
+        doc: asset_id_lst_day
+        type: string
+        default: lst_day
+      asset_id_lst_night:
+        label: asset_id_lst_night
+        doc: asset_id_lst_night
+        type: string
+        default: lst_night
+      asset_id_refl:
+        label: asset_id_refl
+        doc: asset_id_refl
+        type: string
+        default: refl
       day:
         label: day
         doc: day
@@ -27,6 +42,13 @@ $graph:
         doc: longitude
         type: double
         default: 23.727539
+      lst_day:
+        label: lst_day
+        doc: lst_day
+        type: Directory
+        default:
+          class: Directory
+          location: null
       lst_day_band:
         label: lst_day_band
         doc: lst_day_band
@@ -37,6 +59,13 @@ $graph:
         doc: lst_day_ndv
         type: long
         default: -9999
+      lst_night:
+        label: lst_night
+        doc: lst_night
+        type: Directory
+        default:
+          class: Directory
+          location: null
       lst_night_band:
         label: lst_night_band
         doc: lst_night_band
@@ -57,6 +86,13 @@ $graph:
         doc: output_format
         type: string
         default: zarr
+      refl:
+        label: refl
+        doc: refl
+        type: Directory
+        default:
+          class: Directory
+          location: null
       refl_ndv:
         label: refl_ndv
         doc: refl_ndv
@@ -81,15 +117,21 @@ $graph:
       run_script:
         run: '#xce_script'
         in:
+          asset_id_lst_day: asset_id_lst_day
+          asset_id_lst_night: asset_id_lst_night
+          asset_id_refl: asset_id_refl
           day: day
           latitude: latitude
           longitude: longitude
+          lst_day: lst_day
           lst_day_band: lst_day_band
           lst_day_ndv: lst_day_ndv
+          lst_night: lst_night
           lst_night_band: lst_night_band
           lst_night_ndv: lst_night_ndv
           month: month
           output_format: output_format
+          refl: refl
           refl_ndv: refl_ndv
           savename: savename
           year: year
@@ -111,6 +153,27 @@ $graph:
       - --batch
       - --eoap
     inputs:
+      asset_id_lst_day:
+        label: asset_id_lst_day
+        doc: asset_id_lst_day
+        type: string
+        default: lst_day
+        inputBinding:
+          prefix: --asset-id-lst-day
+      asset_id_lst_night:
+        label: asset_id_lst_night
+        doc: asset_id_lst_night
+        type: string
+        default: lst_night
+        inputBinding:
+          prefix: --asset-id-lst-night
+      asset_id_refl:
+        label: asset_id_refl
+        doc: asset_id_refl
+        type: string
+        default: refl
+        inputBinding:
+          prefix: --asset-id-refl
       day:
         label: day
         doc: day
@@ -132,6 +195,15 @@ $graph:
         default: 23.727539
         inputBinding:
           prefix: --longitude
+      lst_day:
+        label: lst_day
+        doc: lst_day
+        type: Directory
+        default:
+          class: Directory
+          location: null
+        inputBinding:
+          prefix: --lst-day
       lst_day_band:
         label: lst_day_band
         doc: lst_day_band
@@ -146,6 +218,15 @@ $graph:
         default: -9999
         inputBinding:
           prefix: --lst-day-ndv
+      lst_night:
+        label: lst_night
+        doc: lst_night
+        type: Directory
+        default:
+          class: Directory
+          location: null
+        inputBinding:
+          prefix: --lst-night
       lst_night_band:
         label: lst_night_band
         doc: lst_night_band
@@ -174,6 +255,15 @@ $graph:
         default: zarr
         inputBinding:
           prefix: --output-format
+      refl:
+        label: refl
+        doc: refl
+        type: Directory
+        default:
+          class: Directory
+          location: null
+        inputBinding:
+          prefix: --refl
       refl_ndv:
         label: refl_ndv
         doc: refl_ndv

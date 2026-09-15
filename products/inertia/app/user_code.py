@@ -8,6 +8,12 @@ get_ipython = unittest.mock.MagicMock
 # In[ ]:
 
 
+from pathlib import Path
+
+
+# In[ ]:
+
+
 xcengine_config = {
     "workflow_id": "heatwise_inertia",
     "environment_file": "environment.yml",
@@ -32,6 +38,15 @@ day = 18
 output_format = "zarr"
 savename = ""
 
+lst_day: "EOInput" = Path("./inputs/lst_day")
+asset_id_lst_day = "lst_day"
+
+lst_night: "EOInput" = Path("./inputs/lst_night")
+asset_id_lst_night = "lst_night"
+
+refl: "EOInput" = Path("./inputs/refl")
+asset_id_refl = "refl"
+
 
 # In[ ]:
 
@@ -53,7 +68,6 @@ from rasterio.enums import Resampling
 import math
 from datetime import datetime
 from pvlib import solarposition
-from pathlib import Path
 import xarray as xr
 import rioxarray
 
@@ -78,14 +92,6 @@ def get_catalog(inp: Path | str) -> pystac.Catalog:
 
 obs_date = datetime(year, month, day)
 
-lst_day: "EOInput" = Path("./inputs/lst_day")
-asset_id_lst_day = "lst_day"
-
-lst_night: "EOInput" = Path("./inputs/lst_night")
-asset_id_lst_night = "lst_night"
-
-refl: "EOInput" = Path("./inputs/refl")
-asset_id_refl = "refl"
 
 catalog_lst_day = get_catalog(lst_day)
 lst_day_fpath = next(iter(extract_assets_from_catalog(catalog_lst_day, asset_id_lst_day))).href
