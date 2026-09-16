@@ -5,7 +5,7 @@ get_ipython = unittest.mock.MagicMock
 
 # # Combined WP3 product
 
-# In[1]:
+# In[ ]:
 
 
 from pathlib import Path
@@ -40,14 +40,16 @@ savename = "hw_combined_sepolia.gpkg"
 __xce_set_params()
 
 
-# In[3]:
+# In[ ]:
 
 
 from pathlib import Path
 import pystac
+from shapely.geometry import MultiPolygon
+import itertools
 
 
-# In[4]:
+# In[ ]:
 
 
 def extract_assets_from_catalog(catalog: pystac.Catalog, asset_key: str) -> list[pystac.Asset]:
@@ -68,7 +70,7 @@ def get_catalog(inp: Path | str) -> pystac.Catalog:
     return catalog
 
 
-# In[5]:
+# In[ ]:
 
 
 catalog_ua = get_catalog(urban_atlas)
@@ -80,7 +82,7 @@ fpath_mat = next(iter(extract_assets_from_catalog(catalog_mat, asset_id_mat))).h
 fpath_hcspots = next(iter(extract_assets_from_catalog(catalog_hcspots, asset_id_hcspots))).href
 
 
-# In[6]:
+# In[ ]:
 
 
 import geopandas as gpd
@@ -142,17 +144,19 @@ base_path.mkdir(exist_ok=True, parents=True)
 ua.to_file( base_path / savename)
 
 
-# In[7]:
+# In[ ]:
 
 
 def generate_stac(gdf: gpd.GeoDataFrame):
     geometry = gdf.to_crs("EPSG:4327").geometry.dropna()
+    multipolygon = MultiPolygon(itertools.chain([list(geom.geoms) for geom in geometry.tolist()]))    
+
     layout_strategy = pystac.layout.CustomLayoutStrategy(
             item_func=lambda item, parent: Path(parent) / base_path.name / f"{item.id}.json"
         )
     item = pystac.Item(
         "urban_atlas_with_hotspots",
-        geometry=geometry.__geo_interface__,
+        geometry=multipolygon.__geo_interface__,
         bbox=geometry.union_all().bounds,
         datetime=datetime.now(tz=timezone.utc),
         properties={},
@@ -163,7 +167,7 @@ def generate_stac(gdf: gpd.GeoDataFrame):
 
 
 
-# In[8]:
+# In[ ]:
 
 
 # Step 5: Generate output STAC documents (done by hand, because xcengine does not support vector output)
