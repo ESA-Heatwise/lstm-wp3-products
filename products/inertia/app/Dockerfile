@@ -1,4 +1,4 @@
-FROM mambaorg/micromamba:1.5.10-noble-cuda-12.6.0
+FROM mambaorg/micromamba:2.9-cuda13.2.1-ubuntu24.04
 COPY Dockerfile Dockerfile
 COPY environment.yml environment.yml
 RUN micromamba install -y -n base -f environment.yml && \

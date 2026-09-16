@@ -1,0 +1,27 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [],
+  "id": "refl_item",
+  "geometry": null,
+  "properties": {
+    "datetime": "2026-09-03T12:46:33.341932Z"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "./catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "./catalog.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "refl": {
+      "href": "./Athens_Center_CHIME_Thermopolis_090718.tif"
+    }
+  }
+}

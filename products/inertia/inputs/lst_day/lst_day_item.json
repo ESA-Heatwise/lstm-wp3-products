@@ -1,0 +1,27 @@
+{
+  "type": "Feature",
+  "stac_version": "1.1.0",
+  "stac_extensions": [],
+  "id": "lst_day_item",
+  "geometry": null,
+  "properties": {
+    "datetime": "2026-09-03T12:46:33.341932Z"
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "./catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "./catalog.json",
+      "type": "application/json"
+    }
+  ],
+  "assets": {
+    "lst_day": {
+      "href": "./Athens_Center_LSTM_Thermopolis_090718_day_50m.tif"
+    }
+  }
+}

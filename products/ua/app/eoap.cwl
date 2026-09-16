@@ -36,12 +36,16 @@ $graph:
         label: hcspots
         doc: hcspots
         type: Directory
-        default: null
+        default:
+          class: Directory
+          location: null
       material_labels:
         label: material_labels
         doc: material_labels
         type: Directory
-        default: null
+        default:
+          class: Directory
+          location: null
       material_legend:
         label: material_legend
         doc: material_legend
@@ -61,7 +65,9 @@ $graph:
         label: urban_atlas
         doc: urban_atlas
         type: Directory
-        default: null
+        default:
+          class: Directory
+          location: null
     outputs:
       - id: stac_catalog
         type: Directory
@@ -87,10 +93,10 @@ $graph:
     id: xce_script
     requirements:
       DockerRequirement:
-        dockerPull: hw-uacomb:1
+        dockerPull: ghcr.io/esa-heatwise/lstm-wp3-products-ua:latest
     hints:
       DockerRequirement:
-        dockerPull: hw-uacomb:1
+        dockerPull: ghcr.io/esa-heatwise/lstm-wp3-products-ua:latest
     baseCommand:
       - /usr/local/bin/_entrypoint.sh
       - python
@@ -131,14 +137,18 @@ $graph:
         label: hcspots
         doc: hcspots
         type: Directory
-        default: null
+        default:
+          class: Directory
+          location: null
         inputBinding:
           prefix: --hcspots
       material_labels:
         label: material_labels
         doc: material_labels
         type: Directory
-        default: null
+        default:
+          class: Directory
+          location: null
         inputBinding:
           prefix: --material-labels
       material_legend:
@@ -166,7 +176,9 @@ $graph:
         label: urban_atlas
         doc: urban_atlas
         type: Directory
-        default: null
+        default:
+          class: Directory
+          location: null
         inputBinding:
           prefix: --urban-atlas
     outputs:

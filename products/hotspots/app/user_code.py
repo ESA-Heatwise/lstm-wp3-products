@@ -8,17 +8,25 @@ get_ipython = unittest.mock.MagicMock
 # In[ ]:
 
 
+from pathlib import Path
+
+
+# In[ ]:
+
+
 xcengine_config = {
     "workflow_id": "hotspot_detection",
     "environment_file": "environment.yml",
-    "container_image_tag": "hw-lst-clusters:1",
+    "container_image_tag": "ghcr.io/esa-heatwise/lstm-wp3-products-hotspots:latest",
 }
 
-fpath = "https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2025/03/08/athens-sepolia-lstm/Athens_Sepolia_LSTM_PRISMA_50m_v2.tif"
-band = 7
-ndv = -9999
+band = 1
+ndv = 0
 output_format = "zarr"
-savename = ""
+savename = "" # "hw_lst_clusters_demo.tif"
+
+lst: "EOInput" = Path("./inputs/lst")
+asset_id_lst = "lst"
 
 
 # In[ ]:
@@ -34,8 +42,7 @@ __xce_set_params()
 
 """Hot- and cold-spot detection using majority voting."""
 
-from pathlib import Path
-
+import pystac
 import numpy as np
 import rasterio as rio
 from scipy.stats import kurtosis, skew
@@ -57,6 +64,25 @@ import rioxarray
 
 
 WINDOW_SIZES = [15, 51]
+
+
+def extract_assets_from_catalog(catalog: pystac.Catalog, asset_key: str) -> list[pystac.Asset]:
+    """
+    Returns all assets with a given key from the items of a catalog.
+    """
+    assets = []
+    for item in catalog.get_all_items():
+        if (asset := item.assets.get(asset_key)) is not None:
+            assets.append(asset)
+
+    return assets
+
+
+def get_catalog(inp: Path | str) -> pystac.Catalog:
+    p = Path(inp) / "catalog.json"
+    catalog = pystac.Catalog.from_file(p)
+    catalog.make_all_asset_hrefs_absolute()
+    return catalog
 
 
 def compute_window_features(temp, x, y, window_size=3):
@@ -102,6 +128,10 @@ def compute_window_features(temp, x, y, window_size=3):
         count_non_nan,
     ]
     return features
+
+catalog_lst = get_catalog(lst)
+print(catalog_lst)
+fpath = next(iter(extract_assets_from_catalog(catalog_lst, asset_id_lst))).href
 
 with rio.open(fpath) as ds:
     temp = ds.read(band)

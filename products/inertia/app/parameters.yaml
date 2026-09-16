@@ -1,3 +1,12 @@
+asset_id_lst_day:
+  default: lst_day
+  type: str
+asset_id_lst_night:
+  default: lst_night
+  type: str
+asset_id_refl:
+  default: refl
+  type: str
 day:
   default: 18
   type: int
@@ -7,36 +16,36 @@ latitude:
 longitude:
   default: 23.727539
   type: float
+lst_day:
+  default: null
+  type: Directory
 lst_day_band:
   default: 7
   type: int
-lst_day_fpath:
-  default: https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2009/07/18/athens-center-lstm/Athens_Center_LSTM_Thermopolis_090718_day_50m.tif
-  type: str
 lst_day_ndv:
   default: -9999
   type: int
+lst_night:
+  default: null
+  type: Directory
 lst_night_band:
   default: 7
   type: int
-lst_night_fpath:
-  default: https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2009/07/18/athens-center-lstm/Athens_Center_LSTM_Thermopolis_090718_night_50m.tif
-  type: str
 lst_night_ndv:
   default: -9999
   type: int
 month:
   default: 7
   type: int
-refl_fpath:
-  default: https://eoresults.esa.int/d/CHIME_and_LSTM_mimicked_reflectances_over_land_HEATWISE/2009/07/18/athens-center-chime/Athens_Center_CHIME_Thermopolis_090718.tif
-  type: str
-refl_ndv:
-  default: -9999
-  type: int
 output_format:
   default: zarr
   type: str
+refl:
+  default: null
+  type: Directory
+refl_ndv:
+  default: -9999
+  type: int
 savename:
   default: ''
   type: str

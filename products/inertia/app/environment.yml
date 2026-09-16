@@ -4,6 +4,10 @@ channels:
 dependencies:
 - rasterio
 - pvlib
+- xarray
+- rioxarray
 - xcube
 - pystac
 name: hw-inertia
+variables:
+  XCENGINE_VERSION: 0.1.3.dev0
