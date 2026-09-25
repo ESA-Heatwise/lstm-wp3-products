@@ -148,7 +148,7 @@ ua.to_file( base_path / savename)
 
 
 def generate_stac(gdf: gpd.GeoDataFrame):
-    geometry = gdf.to_crs("EPSG:4327").geometry.dropna()
+    geometry = gdf.to_crs("EPSG:4326").geometry.dropna()
     multipolygon = MultiPolygon(itertools.chain([list(geom.geoms) for geom in geometry.tolist()]))    
 
     layout_strategy = pystac.layout.CustomLayoutStrategy(

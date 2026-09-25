@@ -110,6 +110,11 @@ with rio.open(lst_day_fpath) as ds:  # Daytime LST
     LST_crs = ds.crs
     LST_tf = ds.transform
     profile_lst_D = ds.profile
+    lonlat_bounds = warp.transform_bounds(
+        ds.crs,
+        "EPSG:4326",
+        *ds.bounds
+    )
 
 with rio.open(lst_night_fpath) as ds:  # Nigttime LST (acquired at the same day as daytime LST)
     LST_N = ds.read(lst_night_band)
@@ -188,6 +193,10 @@ hw_ati.rio.write_crs(profile_lst_D["crs"], inplace=True)
 hw_ati.rio.write_transform(profile_lst_D["transform"], inplace=True)
 hw_ati["ati"].rio.write_nodata(profile_lst_D.get("nodata"), inplace=True)
 hw_ati.attrs["xcengine_output_format"] = output_format
+hw_ati.attrs["geospatial_lon_min"] = lonlat_bounds[0]
+hw_ati.attrs["geospatial_lon_max"] = lonlat_bounds[2]
+hw_ati.attrs["geospatial_lat_min"] = lonlat_bounds[1]
+hw_ati.attrs["geospatial_lat_max"] = lonlat_bounds[3]
 hw_ati.rio.set_spatial_dims(x_dim="x", y_dim="y", inplace=True)
 
 

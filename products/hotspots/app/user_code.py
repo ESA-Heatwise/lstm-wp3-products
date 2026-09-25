@@ -136,6 +136,11 @@ fpath = next(iter(extract_assets_from_catalog(catalog_lst, asset_id_lst))).href
 with rio.open(fpath) as ds:
     temp = ds.read(band)
     profile = ds.profile
+    lonlat_bounds = rio.warp.transform_bounds(
+        ds.crs,
+        "EPSG:4326",
+        *ds.bounds
+    )
 
 temp = temp.astype(float)
 temp[temp == ndv] = np.nan
@@ -276,6 +281,10 @@ hw_lst_clusters.rio.write_transform(profile["transform"], inplace=True)
 hw_lst_clusters["lst_coldspots"].rio.write_nodata(profile.get("nodata"), inplace=True)
 hw_lst_clusters["lst_hotspots"].rio.write_nodata(profile.get("nodata"), inplace=True)
 hw_lst_clusters.attrs["xcengine_output_format"] = output_format
+hw_lst_clusters.attrs["geospatial_lon_min"] = lonlat_bounds[0]
+hw_lst_clusters.attrs["geospatial_lon_max"] = lonlat_bounds[2]
+hw_lst_clusters.attrs["geospatial_lat_min"] = lonlat_bounds[1]
+hw_lst_clusters.attrs["geospatial_lat_max"] = lonlat_bounds[3]
 hw_lst_clusters.rio.set_spatial_dims(x_dim="x", y_dim="y", inplace=True)
 
 
