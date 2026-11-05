@@ -110,7 +110,7 @@ with rio.open(lst_day_fpath) as ds:  # Daytime LST
     LST_crs = ds.crs
     LST_tf = ds.transform
     profile_lst_D = ds.profile
-    lonlat_bounds = warp.transform_bounds(
+    lonlat_bounds = rio.warp.transform_bounds(
         ds.crs,
         "EPSG:4326",
         *ds.bounds
@@ -173,7 +173,6 @@ S = part1 * part2 + part3
 inertia = S * (1 - SR) / dtemp  # Eq.2 from Mandanici et al. (2024). Units: K^-1
 
 profile_lst_D.update(dtype=rio.float32, nodata=np.nan, count=1)
-
 
 
 # In[ ]:
