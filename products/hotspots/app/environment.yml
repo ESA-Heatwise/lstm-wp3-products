@@ -11,4 +11,4 @@ dependencies:
 - pystac
 name: hw-hotspots
 variables:
-  XCENGINE_VERSION: 0.1.3.dev0
+  XCENGINE_VERSION: 0.1.4
