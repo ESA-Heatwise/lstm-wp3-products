@@ -7,7 +7,6 @@ dependencies:
 - scipy
 - xgboost
 - scikit-image
-- xcube
 - pystac
 name: hw-hotspots
 variables:
