@@ -8,3 +8,5 @@ dependencies:
 - scipy
 - xgboost
 - scikit-image
+- pandas
+- xarray
