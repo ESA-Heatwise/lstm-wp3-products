@@ -12,6 +12,7 @@ dependencies:
 - xarray
 - pyyaml
 - rioxarray
+- zarr
 name: hw-hotspots
 variables:
   XCENGINE_VERSION: 0.1.4
