@@ -8,6 +8,8 @@ dependencies:
 - xgboost
 - scikit-image
 - pystac
+- pandas
+- xarray
 name: hw-hotspots
 variables:
   XCENGINE_VERSION: 0.1.4
