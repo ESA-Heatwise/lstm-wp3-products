@@ -10,3 +10,5 @@ dependencies:
 - scikit-image
 - pandas
 - xarray
+- pyyaml
+- rioxarray

@@ -10,6 +10,8 @@ dependencies:
 - pystac
 - pandas
 - xarray
+- pyyaml
+- rioxarray
 name: hw-hotspots
 variables:
   XCENGINE_VERSION: 0.1.4
